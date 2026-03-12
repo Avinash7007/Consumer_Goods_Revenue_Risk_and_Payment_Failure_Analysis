@@ -54,7 +54,6 @@ This project analyzes transactional data to monitor revenue performance, identif
 ## 🧮 Sample SQL Queries
 
 ### 🔹 Revenue at Risk Calculation
-
 ```sql
 SELECT 
     SUM(CASE WHEN payment_status IN ('Failed','Pending') 
@@ -67,7 +66,7 @@ SELECT
     / COUNT(*) AS cancellation_rate
 FROM Fact_Sales;
 
-###  🔹Running Revenue Trend
+### 🔹 Running Revenue Trend
 SELECT 
     order_date,
     SUM(daily_revenue) OVER (
@@ -76,6 +75,7 @@ SELECT
     ) AS running_total_revenue
 FROM daily_sales;
 
+```
 ---
 
 ## 🛠 Tech Stack
