@@ -104,7 +104,7 @@ FROM daily_sales;
 
 ## 👤 Author
 
-**Avinash Dubey — Data Analyst (≈3 YOE)**  
+**Avinash Dubey — Data Analyst (3 YOE)**  
 
 📧 dubeyavinash157@gmail.com  
 🔗 https://www.linkedin.com/in/avinash7007/  
