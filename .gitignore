@@ -1,0 +1,42 @@
+# ============================================================
+# Private / Confidential Data
+# ============================================================
+dataset/*.csv
+dataset/*.csv.gz
+dataset/*.xlsx
+dataset/*.xls
+dataset/*.json
+dataset/*.parquet
+dataset/*.txt
+
+# Local database / exports
+*.bak
+*.mdf
+*.ndf
+*.ldf
+*.sql.bak
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# Secrets / environment files
+.env
+.env.*
+!.env.example
+
+# IDE / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs / temporary files
+*.log
+*.tmp
+*.temp
