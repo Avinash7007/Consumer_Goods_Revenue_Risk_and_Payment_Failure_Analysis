@@ -1,90 +1,121 @@
 # Consumer Goods Customer Churn & Revenue Risk Analysis
 
-An end-to-end **Data Analyst project** focused on identifying customer churn signals, cancellation behaviour, payment failures, and revenue loss using **Python/Pandas and SQL Server (T-SQL)**.
+An end-to-end **Data Analyst project** focused on identifying cancellation behaviour, payment-failure signals, customer churn risk, and revenue loss using **Python/Pandas and SQL Server (T-SQL)**.
 
-The workflow cleans and standardizes source data in Python, validates it in SQL Server, analyzes order/customer/payment behaviour, and produces a prioritized customer-risk view for retention teams.
+The project follows a practical analytics workflow: profile and clean source data with Python, validate the prepared data in SQL Server, perform customer/order/payment analysis, calculate cancellation-related revenue loss, and identify customers requiring retention attention.
 
 > **Data privacy:** The original source dataset is confidential and is intentionally **not included** in this public repository. No customer-level records, company source files, credentials, or proprietary extracts are published.
 
-## Business Problem
+---
 
-The business was experiencing rising order cancellations and payment failures but did not have clear visibility into which customers were becoming risky.
+## 1. Business Problem
+
+The business was experiencing a high volume of order cancellations and payment failures but lacked a structured view of the customers and behaviours contributing to revenue risk.
 
 The analysis was designed to answer:
 
-1. How large is the cancellation problem?
-2. How much revenue is exposed to cancellation-related loss?
-3. Which customers show stronger churn-risk signals?
-4. Which customers should the retention team prioritize?
+1. How many orders were processed and cancelled?
+2. What was the overall cancellation rate?
+3. How much revenue was lost through cancelled orders?
+4. Which customers showed stronger risk signals?
+5. Which customers should the retention team prioritize?
+6. How should customer churn be defined consistently?
 
-## Project Workflow
+---
+
+## 2. Project Workflow
 
 ```text
 Private Source Data
-        ↓
+        |
+        v
 Python / Pandas
-        ↓
-Cleaning + Standardization + Data Quality Checks
-        ↓
+        |
+        +--> Data Loading
+        +--> Data Profiling
+        +--> Data Cleaning
+        +--> Data Standardization
+        +--> Data Quality Checks
+        |
+        v
 SQL Server / T-SQL
-        ↓
-Order Analysis
-        ↓
-Cancellation Analysis
-        ↓
-Customer Behaviour Analysis
-        ↓
-Payment Risk Analysis
-        ↓
-Revenue Loss Analysis
-        ↓
-Customer Risk Segmentation
-        ↓
-90-Day Churn Analysis
-        ↓
-Final Validation / KPI Reconciliation
-        ↓
+        |
+        +--> Data Validation
+        +--> Order Analysis
+        +--> Cancellation Analysis
+        +--> Customer Behaviour Analysis
+        +--> Payment Risk Analysis
+        +--> Revenue Loss Analysis
+        +--> Customer Risk Segmentation
+        +--> 90-Day Churn Analysis
+        +--> Final KPI Reconciliation
+        |
+        v
 Business Risk Insights
+        |
+        +--> 33.45% Cancellation Rate
+        +--> 2.5M Revenue Loss
+        +--> 2,389 At-Risk Customers
+        +--> 90-Day Churn Definition
 ```
 
-## Final Project Metrics
+---
+
+## 3. Final Project Metrics
 
 | Metric | Final Value |
 |---|---:|
 | **Total Orders** | **40,000** |
 | **Cancelled Orders** | **13,381** |
 | **Cancellation Rate** | **33.45%** |
-| **Revenue Loss** | **₹2.5M** |
+| **Revenue Loss from Cancelled Orders** | **2.5M** |
 | **At-Risk Customers** | **2,389** |
-| **Churn Definition** | **90 days inactivity** |
-| **Technology** | **SQL Server / T-SQL + Python / Pandas** |
+| **Churn Definition** | **90 days of inactivity** |
+| **Customer Records in Source Data** | **15,000** |
+| **Payment Records in Source Data** | **40,000** |
 
-These are the approved project-level metrics used consistently across the project documentation and interview story.
+> **Important:** `2.5M` is the approved project-level revenue-loss outcome. It is **not** presented as total company revenue. The SQL analysis calculates cancellation-related revenue loss from the source data and uses the final validation layer for reconciliation.
 
-## Python / Pandas
+---
 
-Python was used for the data-preparation layer before SQL analysis.
+## 4. Python / Pandas Layer
+
+Python was used for **data preparation and quality control**, not for a predictive ML model.
+
+### Responsibilities
 
 - Load approved local source files
+- Profile dataset shape and structure
+- Inspect missing values and duplicates
 - Standardize column names
-- Handle missing values and invalid date formats
-- Remove duplicate records
 - Standardize text/status fields
-- Convert numeric fields to appropriate types
-- Profile nulls, duplicates, unique values, and data types
-- Perform basic data-quality checks before analysis
+- Convert date columns to consistent datetime values
+- Convert numeric fields to appropriate numeric types
+- Remove duplicate records
+- Validate required columns before downstream analysis
+
+### Python workflow
 
 ```text
-python/
-├── 01_data_loading.py
-├── 02_data_cleaning.py
-├── 03_data_standardization.py
-└── 04_data_quality_checks.py
+01_data_loading.py
+        |
+        v
+02_data_cleaning.py
+        |
+        v
+03_data_standardization.py
+        |
+        v
+04_data_quality_checks.py
 ```
 
-## SQL Server / T-SQL Analysis
+The local source data is deliberately excluded from GitHub. The Python scripts are reusable preparation logic that can be executed against authorized local data.
 
-The SQL layer is modular so each business question can be tested independently.
+---
+
+## 5. SQL Server / T-SQL Analysis Layer
+
+The SQL layer contains the core business analysis and is organized by analytical question rather than one large query file.
 
 ```text
 sql/
@@ -101,89 +132,170 @@ sql/
 
 ### Analysis sequence
 
-**01 — Data Validation** — required fields, duplicates, orphan keys, date ranges, invalid values, and baseline KPIs.
+| Step | Analysis | Purpose |
+|---|---|---|
+| 01 | Data Validation | Validate row counts, keys, nulls, duplicates, dates, and orphan records |
+| 02 | Order Analysis | Analyze order volume, frequency, repeat behaviour, and purchase patterns |
+| 03 | Cancellation Analysis | Calculate cancelled orders, cancellation rate, channel trends, and cancellation signals |
+| 04 | Customer Behaviour | Analyze first/last orders, purchase gaps, frequency, and customer activity |
+| 05 | Payment Risk | Analyze payment status, failed payments, and customer-level payment risk |
+| 06 | Revenue Loss | Calculate revenue associated with cancelled orders and related risk measures |
+| 07 | Customer Risk Segmentation | Combine behavioural signals to prioritize at-risk customers |
+| 08 | Churn Analysis | Apply the official 90-day inactivity churn definition |
+| 09 | Final Validation | Reconcile final project KPIs and verify the risk model output |
 
-**02 — Order Analysis** — order volume, purchase frequency, repeat behaviour, order value, and purchase sequences.
+---
 
-**03 — Cancellation Analysis** — cancellation rate, trends, customer-level cancellation behaviour, and cancellation-related revenue impact.
+## 6. Cancellation Analysis
 
-**04 — Customer Behaviour** — first/last orders, purchase gaps, frequency, repeat behaviour, and activity patterns.
+The final SQL analysis produces:
 
-**05 — Payment Risk Analysis** — payment status, failed payments, customer payment-failure patterns, and risk signals.
+- **40,000 total orders**
+- **13,381 cancelled orders**
+- **33.45% cancellation rate**
+- **2.5M revenue loss from cancelled orders**
 
-**06 — Revenue Loss Analysis** — revenue loss calculated from the source-data business rule rather than manually entered.
+Cancellation rate is calculated as:
 
-**07 — Customer Risk Segmentation** — multiple behavioural signals combined to prioritize customers for retention.
+```text
+Cancelled Orders / Total Orders × 100
 
-**08 — Churn Analysis** — churn defined as **90 days of inactivity**, separately from the broader at-risk population.
+13,381 / 40,000 × 100 = 33.45%
+```
 
-**09 — Final Validation** — final QA and KPI reconciliation.
+The revenue-loss metric is calculated from the cancelled-order revenue in SQL rather than being manually inserted into the analytical query.
 
-## At-Risk Customer Methodology
+---
+
+## 7. Customer Risk Segmentation
 
 The **2,389 at-risk customers are not simply the customers who have been inactive for 90 days**.
 
-The project combines:
+The project combines multiple behavioural signals:
 
 - Customer inactivity / days since last order
 - Cancellation behaviour
 - Payment failures
 - Purchase frequency and behaviour
 
-This creates a broader risk view that can be used before a customer necessarily becomes churned.
+This creates a broader **at-risk** population that can be prioritized before every customer reaches the formal churn threshold.
 
-### Churn definition
+### Risk concept
+
+```text
+Customer Behaviour
+       |
+       +--> Inactivity Signal
+       +--> Cancellation Signal
+       +--> Payment Failure Signal
+       +--> Purchase Behaviour Signal
+       |
+       v
+Customer Risk Score / Segment
+       |
+       v
+Retention Priority
+```
+
+Final approved output:
+
+> **2,389 customers identified as at-risk.**
+
+---
+
+## 8. Churn Definition
+
+The project uses a separate, explicit churn rule:
 
 > **Churn = 90 days of customer inactivity.**
 
-The 90-day rule avoids treating normal short-term gaps as churn where customers may have longer purchase cycles.
+The 90-day threshold is used to reduce false churn flags caused by normal short purchase gaps or longer customer purchase cycles.
 
-## Key SQL Techniques
+The project also compares shorter inactivity windows during analysis so stakeholders can understand how the churn definition changes the result.
 
-- `JOIN` / `LEFT JOIN`
+**Important distinction:**
+
+- **At-Risk** = broader multi-signal risk classification.
+- **Churned** = customer meeting the **90-day inactivity** definition.
+
+These two populations should not be presented as the same metric.
+
+---
+
+## 9. Key SQL Techniques
+
+The project demonstrates practical SQL Server / T-SQL techniques including:
+
+- `JOIN` and `LEFT JOIN`
 - `GROUP BY` and aggregations
 - `CASE` expressions
 - CTEs
 - `COUNT(DISTINCT ...)`
-- `DATEDIFF`
-- `LAG()` for purchase-gap analysis
-- `DENSE_RANK()` for customer ranking
 - Conditional aggregation
-- KPI reconciliation and data-quality checks
+- `DATEDIFF`
+- `LAG()` for customer purchase-gap analysis
+- `DENSE_RANK()` for ranking
+- Customer-level segmentation
+- KPI reconciliation
+- Data-quality validation
+- Orphan-key checks
+- Null and duplicate checks
 
-## Business Outcome
+---
 
-- **40,000 orders** were analyzed.
-- **13,381 orders** were cancelled.
-- The resulting **cancellation rate was 33.45%**.
-- Cancellation-related analysis quantified approximately **₹2.5M in revenue loss**.
-- **2,389 customers** were prioritized as at-risk based on combined behavioural signals.
-- A **90-day inactivity rule** was established as the churn definition.
+## 10. Data Validation Approach
 
-The output can support retention teams in prioritizing high-risk customers and investigating the operational causes behind cancellations and payment failures.
+The project validates the analysis before reporting the final KPIs.
 
-## Data Privacy & Confidentiality
+### Validation checks include
+
+- Dataset row counts
+- Required-field null checks
+- Duplicate order/customer/payment IDs
+- Orphan orders and customers
+- Invalid or negative amounts
+- Future-dated orders
+- Status distributions
+- Cancellation KPI reconciliation
+- Revenue-loss reconciliation
+- 90-day churn validation
+- At-risk customer count validation
+
+The final validation layer is designed to return **PASS** or **CHECK** instead of silently forcing the result to match an expected number.
+
+---
+
+## 11. Data Privacy
 
 The original dataset is **not uploaded to GitHub**.
 
-This repository contains only analytical SQL logic, Python/Pandas data-preparation logic, documentation, and non-sensitive project-level KPI definitions.
+The public repository contains only:
+
+- Python/Pandas data-preparation logic
+- SQL Server/T-SQL analysis
+- Data-quality and validation logic
+- Documentation
+- Non-sensitive project-level KPI definitions
 
 The repository does **not** contain:
 
 - Customer-level records
 - Raw CSV/Excel exports
-- Company source-system extracts
 - Personally identifiable information
-- Passwords/API keys/database credentials
-- Confidential transaction-level data
+- Payment details
+- Company source-system extracts
+- Database credentials
+- API keys or passwords
 
-Authorized users can place approved source files locally in `dataset/`. Those files are excluded from Git tracking.
+Authorized source files can be placed locally under `dataset/`. They are excluded from Git tracking through `.gitignore`.
 
-## Repository Structure
+---
+
+## 12. Repository Structure
 
 ```text
 Consumer_Goods_Revenue_Risk_and_Payment_Failure_Analysis/
-│
+|
 ├── python/
 │   ├── 01_data_loading.py
 │   ├── 02_data_cleaning.py
@@ -209,22 +321,33 @@ Consumer_Goods_Revenue_Risk_and_Payment_Failure_Analysis/
 └── README.md
 ```
 
-## Tech Stack
+---
+
+## 13. Tech Stack
 
 | Technology | Purpose |
 |---|---|
 | **Python** | Data preparation and quality checks |
-| **Pandas** | Cleaning, standardization and profiling |
+| **Pandas** | Cleaning, standardization, profiling |
 | **SQL Server** | Analytical data processing |
 | **T-SQL** | Business analysis and KPI calculations |
 | **SSMS** | SQL development and validation |
-| **Git / GitHub** | Version control and documentation |
+| **Git / GitHub** | Version control and project documentation |
+
+---
+
+## 14. Interview Project Story
+
+> The business was facing rising order cancellations and limited visibility into customers who were becoming risky. I used Python and Pandas for data profiling, cleaning, standardization, and quality checks, then used SQL Server and T-SQL for the core business analysis. I analyzed 40,000 orders, identified 13,381 cancelled orders, calculated a 33.45% cancellation rate, and quantified 2.5M in cancellation-related revenue loss. I then combined inactivity, cancellation behaviour, payment failures, and purchase behaviour to identify 2,389 at-risk customers. Separately, I defined customer churn as 90 days of inactivity so the business had a consistent retention and churn framework.
+
+This project was focused on **SQL-based business analysis and Python/Pandas data preparation**, not dashboard development or predictive machine learning.
+
+---
 
 ## Author
 
 **Avinash Dubey — Data Analyst**
 
-📧 dubeyavinash157@gmail.com  
-💼 https://www.linkedin.com/in/avinash7007/  
-🌐 https://avinash7007.github.io/avinash-portfolio/  
-🐙 https://github.com/Avinash7007
+- LinkedIn: https://www.linkedin.com/in/avinash7007/
+- Portfolio: https://avinash7007.github.io/avinash-portfolio/
+- GitHub: https://github.com/Avinash7007
