@@ -346,8 +346,10 @@ This project was focused on **SQL-based business analysis and Python/Pandas data
 
 ## Author
 
-**Avinash Dubey — Data Analyst**
+**Avinash Dubey**  
+Data Analyst | Power BI | SQL | DAX
 
-- LinkedIn: https://www.linkedin.com/in/avinash7007/
-- Portfolio: https://avinash7007.github.io/avinash-portfolio/
-- GitHub: https://github.com/Avinash7007
+- 📧 Email: [dubeyavinash157@gmail.com](mailto:dubeyavinash157@gmail.com)
+- 💼 LinkedIn: [linkedin.com/in/avinash7007](https://www.linkedin.com/in/avinash7007/)
+- 🌐 Portfolio: [avinash7007.github.io/avinash-portfolio](https://avinash7007.github.io/avinash-portfolio/)
+- 💻 GitHub: [github.com/Avinash7007](https://github.com/Avinash7007)
